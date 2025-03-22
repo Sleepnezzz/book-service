@@ -57,7 +57,7 @@ class BookServiceImplTests {
                 subject.saveBook(request)
             }
 
-            val request2 = BookRequest("Title", "Author", LocalDate.now().plusDays(1))
+            val request2 = BookRequest("Title", "Author", LocalDate.now().plusYears(1))
 
             assertThrows(PublishedDateInvalidException::class.java) {
                 subject.saveBook(request2)
