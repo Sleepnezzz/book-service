@@ -12,7 +12,8 @@ import org.springframework.stereotype.Service
 @Service
 class BookServiceImpl(private val bookRepository: BookRepository) : BookService {
     override fun saveBook(request: BookRequest): Book {
-        if (request.publishedDate.year < 1000 || request.publishedDate.isAfter(LocalDate.now())) {
+        val currentYear = LocalDate.now().year
+        if (request.publishedDate.year !in 1000..currentYear) {
             throw PublishedDateInvalidException("Published date must be between 1000 and current year")
         }
 
