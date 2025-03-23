@@ -31,6 +31,7 @@ dependencies {
     testImplementation("io.cucumber:cucumber-spring:7.21.1")
     testImplementation("io.cucumber:cucumber-junit:7.21.1")
     testImplementation("io.cucumber:cucumber-java:7.21.1")
+    testRuntimeOnly 'org.junit.vintage:junit-vintage-engine:5.11.4'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.jetbrains.kotlin:kotlin-test-junit5'
@@ -45,8 +46,37 @@ kotlin {
 
 tasks.named('test') {
     useJUnitPlatform()
-    exclude("**/cucumber/**")
     finalizedBy(jacocoTestReport)
+}
+
+configurations {
+    cucumberRuntime {
+        extendsFrom testImplementation
+    }
+}
+
+tasks.register('cucumberCli', JavaExec) {
+    dependsOn tasks.named('testClasses') // Ensure test classes are compiled
+    classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
+    mainClass = 'io.cucumber.core.cli.Main' // Main class for Cucumber CLI
+    args = [
+            '--plugin', 'pretty',
+            '--plugin', 'html:build/reports/cucumber/cucumber.html',
+            '--plugin', 'json:build/reports/cucumber/cucumber.json', // Optional: JSON report output
+            '--glue', 'com.example.book', // Glue code location
+            'src/test/resources' // Feature files location
+    ]
+    doLast {
+        logger.lifecycle("Cucumber test executed with args: ${args}")
+    }
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events = ["passed", "skipped", "failed"]
+        exceptionFormat = "full"
+    }
 }
 
 jacocoTestReport {
