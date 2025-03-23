@@ -1,4 +1,4 @@
-package com.example.book.cucumber.steps
+package com.example.book.cucumber.steps.book
 
 import com.example.book.repository.BookRepository
 import io.cucumber.java.Before

@@ -1,4 +1,4 @@
-package com.example.book.cucumber.steps
+package com.example.book.cucumber.steps.book
 
 import com.example.book.model.Book
 import com.example.book.repository.BookRepository
@@ -7,7 +7,7 @@ import io.cucumber.java.en.Given
 import io.cucumber.java.en.Then
 import io.cucumber.java.en.When
 import java.time.LocalDate
-import org.junit.Assert
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.boot.test.web.server.LocalServerPort
@@ -45,7 +45,7 @@ class BookRetrievalSteps {
 
     @Then("the response should contain books for {string}")
     fun thenTheResponseShouldContainBooksFor(author: String) {
-        Assert.assertTrue(response.body?.contains(author) == true)
+        assertTrue(response.body?.contains(author) == true)
         println("Response body contains books for: $author")
     }
 
