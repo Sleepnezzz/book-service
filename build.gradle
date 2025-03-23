@@ -4,6 +4,7 @@ plugins {
     id 'org.springframework.boot' version '3.4.3'
     id 'io.spring.dependency-management' version '1.1.7'
     id 'jacoco'
+    id 'org.jlleitschuh.gradle.ktlint' version '11.6.1'
 }
 
 group = 'com.example'
@@ -95,4 +96,19 @@ jacocoTestReport {
     })
     sourceDirectories.setFrom(files("src/main/kotlin"))
     executionData.setFrom(files("$buildDir/jacoco/test.exec"))
+}
+
+ktlint {
+    filter {
+        exclude '**/generated/**'
+    }
+    disabledRules = [
+            "final-newline",                // File must end with a newline
+            "no-wildcard-imports",          // No wildcard imports
+            "indent",                        // Indentation
+            "parameter-list-wrapping",       // Wrap long parameter lists
+            "trailing-comma",                // Missing trailing commas
+            "no-tab-character",              // Unexpected tab character(s)
+            "import-ordering"
+    ]
 }
