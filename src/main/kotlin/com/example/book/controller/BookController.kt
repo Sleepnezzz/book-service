@@ -25,7 +25,8 @@ import org.springframework.web.bind.annotation.RestController
 class BookController(private val bookService: BookService) {
     @GetMapping
     @Operation(
-        summary = "Get books by author", responses = [
+        summary = "Get books by author",
+        responses = [
             ApiResponse(
                 responseCode = "200",
                 description = "Successful operation"
@@ -49,8 +50,15 @@ class BookController(private val bookService: BookService) {
         description = "Invalid published date",
         content = [Content(schema = Schema(implementation = String::class))]
     )
-    @ApiResponse(responseCode = "500", description = "Internal server error")
-    fun saveBook(@Valid @RequestBody request: BookRequest): ResponseEntity<com.example.book.model.Book> {
+    @ApiResponse(
+        responseCode = "500",
+        description = "Internal server error"
+    )
+    fun saveBook(
+        @Valid
+        @RequestBody
+        request: BookRequest
+    ): ResponseEntity<com.example.book.model.Book> {
         return ResponseEntity.status(HttpStatus.CREATED).body(bookService.saveBook(request))
     }
 }
