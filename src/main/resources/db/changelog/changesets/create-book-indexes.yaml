@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-author-index
+      author: book-service
+      changes:
+        - createIndex:
+            tableName: books
+            indexName: idx_books_author
+            columns:
+              - column:
+                  name: author
